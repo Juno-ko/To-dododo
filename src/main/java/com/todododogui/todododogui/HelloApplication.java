@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -33,6 +34,15 @@ public class HelloApplication extends Application {
                 newTaskField.clear();
             }
         });
+        newTaskField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String newTask = newTaskField.getText();
+                if (!newTask.isEmpty()) {
+                    tasks.add(newTask);
+                    newTaskField.clear();
+                }
+            }
+        });
 
         HBox inputBox = new HBox(newTaskField, addButton);
         HBox.setHgrow(newTaskField, Priority.ALWAYS);
@@ -44,5 +54,4 @@ public class HelloApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 }
