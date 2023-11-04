@@ -1,6 +1,7 @@
 package com.todododogui.todododogui;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,21 +14,21 @@ public class HelloController {
     public TextField newTask;
     @FXML
     private Label showTasks;
+
+    public ObservableList<String> tasks = FXCollections.observableArrayList();
     @FXML
     protected void submitClicked() {
         String taskToBeAdded = newTask.getText();
-        showTasks.setText("1. " + taskToBeAdded);
+        tasks.add(taskToBeAdded);
+        printTasks(tasks);
     }
-    static void printTasks(ArrayList<String> tasks) {
+    protected void printTasks(ObservableList<String> tasks) {
+        StringBuilder taskList = new StringBuilder();
+
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            taskList.append((i + 1) + ". " + tasks.get(i) + "\n");
         }
-    }
-    static void addTask(ArrayList<String> tasks) {
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("\nAdd new task:");
-        String task = myObj.nextLine();
-        tasks.add(task);
+        showTasks.setText(taskList.toString());
     }
     static void markTaskDone(ArrayList<String> tasks) {
         Scanner myObj = new Scanner(System.in);
@@ -37,5 +38,4 @@ public class HelloController {
             tasks.remove(taskNumber - 1);
         }
     }
-
 }

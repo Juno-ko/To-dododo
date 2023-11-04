@@ -1,68 +1,62 @@
 package com.todododogui.todododogui;
 
-import java.util.Scanner;
-import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Tododocli {
+import java.util.Optional;
+
+public class Tododocli extends Application {
+
+    private ObservableList<String> tasks = FXCollections.observableArrayList();
 
     public static void main(String[] args) {
-        ArrayList<String> tasks = new ArrayList<String>();
-    
-        while (true) {
-            System.out.println("");
-            System.out.println("-----------");
-            System.out.println("To-Do List:");
-            System.out.println("-----------");          
-            printTasks(tasks);
+        launch(args);
+    }
 
-            System.out.println("\nWhat to do:");
-            System.out.println("1. Add Task");
-            System.out.println("2. Mark Task as Done");
-            System.out.println("3. Quit");
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("To-Do List App");
 
-            Scanner myObj = new Scanner(System.in);
-            System.out.println("\nEnter number: ");
-            int option = myObj.nextInt();
+        ListView<String> taskListView = new ListView<>(tasks);
+        Button addButton = new Button("Lisää tehtävä");
 
-            switch (option) {
-                case 1:
-                    addTask(tasks);
-                    break;
-                case 2:
-                    markTaskDone(tasks);
-                    break;
-                case 3:
-                    System.out.println("Quitting.");
-                    return;
-                default:
-                    System.out.println("Please, choice number between 1 - 3.");
+        addButton.setOnAction(event -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setContentText("Tehtävä:");
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(newTask -> tasks.add(newTask));
+        });
+
+        taskListView.setCellFactory(param -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null) {
+                    setText(item);
+
+                    Button deleteButton = new Button("X");
+                    deleteButton.setOnAction(event -> {
+                        tasks.remove(item);
+                    });
+
+                    setGraphic(deleteButton);
+                } else {
+                    setText(null);
+                    setGraphic(null);
+                }
             }
-        }
-    }
-    static void printTasks(ArrayList<String> tasks) {
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
-        }
-    }
-    static void addTask(ArrayList<String> tasks) {
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("\nAdd new task:");
-        String task = myObj.nextLine();
-        tasks.add(task);
-    }
-    static void markTaskDone(ArrayList<String> tasks) {
-        Scanner myObj = new Scanner(System.in);
-        System.out.print("\nEnter tasks number to mark as done:\n");
-        int taskNumber = myObj.nextInt();
-        if (taskNumber >= 1 && taskNumber <= tasks.size()) {
-            tasks.remove(taskNumber - 1);
-        }
+        });
+
+        VBox root = new VBox(taskListView, addButton);
+        Scene scene = new Scene(root, 300, 400);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
