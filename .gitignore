@@ -39,3 +39,5 @@ build/
 .DS_Store
 /.mvn/
 /.idea/
+
+/src/main/java/com/todododogui/todododogui/Tododocli.java
