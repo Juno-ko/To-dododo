@@ -9,5 +9,4 @@ Added later
 
 ## Preview
 
-[Screencast from 2023-11-04 12-07-32.webm](https://github.com/Juno-ko/To-dododo/assets/82768592/c74fee5e-7152-4602-b2e8-c1ca66e29638)
-
+![preview](https://github.com/Juno-ko/To-dododo/assets/82768592/a7304303-3a59-4f5a-a32a-a22a3cf886ea)
