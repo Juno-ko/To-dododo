@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
 
-    private ObservableList<String> tasks = FXCollections.observableArrayList();
+    private final ObservableList<String> tasks = FXCollections.observableArrayList();
 
     public static void main(String[] args) {
         launch(args);
@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("To-Do List App");
+        primaryStage.setTitle("To-dododo");
 
         ListView<String> taskListView = new ListView<>(tasks);
         TextField newTaskField = new TextField();
@@ -44,4 +44,5 @@ public class HelloApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 }
