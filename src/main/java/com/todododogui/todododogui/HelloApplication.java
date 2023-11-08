@@ -7,13 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class HelloApplication extends Application {
 
-    private final ObservableList<String> tasks = FXCollections.observableArrayList();
+    private ObservableList<TaskItem> tasks = FXCollections.observableArrayList();
 
     public static void main(String[] args) {
         launch(args);
@@ -23,35 +23,76 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("To-dododo");
 
-        ListView<String> taskListView = new ListView<>(tasks);
+        ListView<TaskItem> taskListView = new ListView<>(tasks);
+        taskListView.setCellFactory(new Callback<ListView<TaskItem>, ListCell<TaskItem>>() {
+            @Override
+            public ListCell<TaskItem> call(ListView<TaskItem> param) {
+                return new ListCell<TaskItem>() {
+                    @Override
+                    protected void updateItem(TaskItem item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item.getTaskName());
+                            setGraphic(createDeleteButton(item));
+                        } else {
+                            setText("");
+                            setGraphic(null);
+                        }
+                    }
+                };
+            }
+        });
+
         TextField newTaskField = new TextField();
         Button addButton = new Button("Add");
 
         addButton.setOnAction(event -> {
             String newTask = newTaskField.getText();
             if (!newTask.isEmpty()) {
-                tasks.add(newTask);
+                tasks.add(new TaskItem(newTask));
                 newTaskField.clear();
             }
         });
+
         newTaskField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 String newTask = newTaskField.getText();
                 if (!newTask.isEmpty()) {
-                    tasks.add(newTask);
+                    tasks.add(new TaskItem(newTask));
                     newTaskField.clear();
                 }
             }
         });
 
-        HBox inputBox = new HBox(newTaskField, addButton);
-        HBox.setHgrow(newTaskField, Priority.ALWAYS);
-        newTaskField.setMaxWidth(Double.MAX_VALUE);
-
-        VBox root = new VBox(taskListView, inputBox);
+        VBox root = new VBox(taskListView, new HBox(newTaskField, addButton));
         Scene scene = new Scene(root, 300, 400);
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private class TaskItem {
+        private String taskName;
+
+        public TaskItem(String taskName) {
+            this.taskName = taskName;
+        }
+
+        public String getTaskName() {
+            return taskName;
+        }
+
+        @Override
+        public String toString() {
+            return taskName;
+        }
+    }
+
+    private Button createDeleteButton(TaskItem item) {
+        Button deleteButton = new Button("X");
+        deleteButton.setOnAction(event -> {
+            tasks.remove(item);
+        });
+        return deleteButton;
     }
 }
