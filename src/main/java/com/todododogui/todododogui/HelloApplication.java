@@ -91,7 +91,7 @@ public class HelloApplication extends Application {
         }
 
     private Button createDeleteButton(TaskItem item) {
-        Button deleteButton = new Button("X");
+        Button deleteButton = new Button("XXX");
         deleteButton.setOnAction(event -> tasks.remove(item));
         return deleteButton;
     }
