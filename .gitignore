@@ -40,4 +40,4 @@ build/
 /.mvn/
 /.idea/
 
-/src/main/java/com/todododogui/todododogui/Tododocli.java
+src/main/java/com/todododogui/todododogui/Tododocli.java
