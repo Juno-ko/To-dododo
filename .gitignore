@@ -8,6 +8,8 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/misc.xml
+.idea/uiDesigner.xml
 *.iws
 *.iml
 *.ipr
@@ -36,4 +38,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/.idea/uiDesigner.xml
+/.mvn/
+/.idea/
+
+src/main/java/com/todododogui/todododogui/Tododocli.java
+
